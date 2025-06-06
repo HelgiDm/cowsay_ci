@@ -22,8 +22,8 @@ jobs:
             VERSION=$(echo "$OLD_VER" | awk -F. '{print $1 "." $2 "." $3+1}')
           fi
           echo "$VERSION" > v.txt
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
-          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
           
       - name: Show New Version
         run: echo "New version is $VERSION"
@@ -49,7 +49,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: helgidmitrisson/$IMAGE:$VERSION
+          tags: helgidmitrisson/$IMAGE:${{ needs.versioning.outputs.version }}
         
       
       
