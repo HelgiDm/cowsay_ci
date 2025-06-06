@@ -6,9 +6,12 @@ env:
 jobs:
   versioning:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.setver.outputs.version }}
     steps:
       - uses: actions/checkout@v4
       - name: Versioning
+        id: setver
         run: |
           git fetch --prune --unshallow --tags
           TAGS=$(git tag)
