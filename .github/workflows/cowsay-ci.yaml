@@ -22,18 +22,15 @@ jobs:
             VERSION=$(echo "$OLD_VER" | awk -F. '{print $1 "." $2 "." $3+1}')
           fi
           echo "$VERSION" > v.txt
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "OLD_VER=$OLD_VER" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           
       - name: Show New Version
         run: echo "New version is $VERSION"
 
-      
-
-
-
-
-      
+  build_push:
+    runs-on: ubuntu-latest
+    steps:    
       - name: Dockerize Cowsay
         run: docker build -t $IMAGE:$VERSION .
 
@@ -54,7 +51,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: user/app:latest
+          tags: helgidmitrisson/$IMAGE:$VERSION
         
       
       
